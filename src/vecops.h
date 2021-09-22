@@ -51,6 +51,27 @@ namespace lapp::vecops
 	}
 
 	/*
+	 * Scales the first N components of b by a factor of a.
+	 *
+	 * Parameters:
+	 * 	N, the number of elements to scale;
+	 * 	T, the type of elements in b;
+	 * 	a, the factor by which the components of b are to be scaled;
+	 * 	b, a pointer to the start of the array to be scaled;
+	 * 	result, a pointer to the start of the array where the result is saved.
+	 *
+	 * Returns:
+	 * 	void
+	 */
+	template <size_t N, typename T>
+	void scale(const T a, const T* b, T* result)
+	{
+		for (int i = 0; i < N; i++)
+		{
+			result[i] = a * b[i];
+		}
+	}
+	/*
 	 * Subtracts b from a component wise for N components.
 	 *
 	 * Parameters:
