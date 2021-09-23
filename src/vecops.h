@@ -1,7 +1,6 @@
-
 #pragma once
 
-#include <cstddef>
+#include <cstddef>	// size_t
 
 namespace lapp::vecops
 {
