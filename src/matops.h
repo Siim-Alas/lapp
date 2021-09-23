@@ -90,7 +90,7 @@ namespace lapp::matops
 			for (int m = i + 1; m < M; m++)
 			{
 				T factor = A[m][j] / A[i][j];
-				A[M][j] = 0;
+				A[m][j] = 0;
 
 				for (int n = j + 1; n < N; n++)
 				{
