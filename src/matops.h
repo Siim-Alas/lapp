@@ -79,6 +79,7 @@ namespace lapp::matops
 
 		while ((i < M) && (j < N))
 		{
+			/*
 			int imax = argmax_abs_in_col<M, N, T>(A, j, i);
 			if (imax == -1)
 			{
@@ -86,6 +87,7 @@ namespace lapp::matops
 				continue;
 			}
 			swap_rows<M, N, T>(A, i, imax);
+			*/
 
 			for (int m = i + 1; m < M; m++)
 			{
