@@ -2,8 +2,6 @@
 #include <cstring>
 #include "../src/matops.h"
 
-#include <iostream>
-
 int main()
 {
 	const size_t M = 3;
