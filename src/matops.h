@@ -2,6 +2,7 @@
 
 #include <cmath>	// std::abs
 #include <cstddef>	// size_t
+#include <stack>	// std::stack
 
 namespace lapp::matops
 {
@@ -53,11 +54,12 @@ namespace lapp::matops
 	template <size_t M, size_t N, typename T>
 	void swap_rows(T A[M][N], const int a, const int b)
 	{
-		const size_t bytes_to_swap = sizeof(T) * N;
-		T swap[N];
-		memcpy(swap, &A[a][0], bytes_to_swap);
-		memcpy(&A[a][0], &A[b][0], bytes_to_swap);
-		memcpy(&A[b][0], swap, bytes_to_swap);
+		for (int j = 0; j < N; j++)
+		{
+			T temp = A[a][j];
+			A[a][j] = A[b][j];
+			A[b][j] = temp;
+		}
 	}
 
 	/*
@@ -67,27 +69,29 @@ namespace lapp::matops
 	 * 	M, the number of rows in the matrix;
 	 * 	N, the number of columns or elements in each row of the matrix;
 	 * 	A, a pointer to the start of the matrix to transform to row echelon form.
+	 * 	swap_stack, a stack to which, for each row swap, the indeces of the swapped rows get pushed consecutively.
 	 *
 	 * Returns:
 	 * 	void
 	 */
 	template <size_t M, size_t N, typename T>
-	void transform_in_place_to_unreduced_row_echelon_form(T A[M][N])
+	void transform_in_place_to_unreduced_row_echelon_form(T A[M][N], std::stack<int> &swap_stack)
 	{
 		int i = 0;
 		int j = 0;
 
 		while ((i < M) && (j < N))
 		{
-			/*
-			int imax = argmax_abs_in_col<M, N, T>(A, j, i);
-			if (imax == -1)
+			int i_max = argmax_abs_in_col<M, N, T>(A, j, i);
+			if (i_max == -1)
 			{
 				j++;
 				continue;
 			}
-			swap_rows<M, N, T>(A, i, imax);
-			*/
+
+			swap_rows<M, N, T>(A, i, i_max);
+			swap_stack.push(i);
+			swap_stack.push(i_max);
 
 			for (int m = i + 1; m < M; m++)
 			{
