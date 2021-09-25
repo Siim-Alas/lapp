@@ -12,7 +12,6 @@ int main()
 		{ -3, -1,  2, -11 },
 		{ -2,  1,  2,  -3 }
 	};
-	std::stack<int> swap_stack;
 	double correct_result[M][N] =
 	{
 		{ 2,   1,  -1, 8 },
@@ -20,7 +19,7 @@ int main()
 		{ 0,   0,  -1, 1 }
 	};
 
-	lapp::matops::transform_in_place_to_unreduced_row_echelon_form<M, N, double>(A, swap_stack);
+	lapp::matops::transform_in_place_to_unreduced_row_echelon_form<M, N, double>(A);
 
 	return memcmp(A, correct_result, sizeof(double) * M * N);
 }

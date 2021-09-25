@@ -2,7 +2,6 @@
 
 #include <cmath>	// std::abs
 #include <cstddef>	// size_t
-#include <stack>	// std::stack
 
 namespace lapp::matops
 {
@@ -63,19 +62,19 @@ namespace lapp::matops
 	}
 
 	/*
-	 * Transform a matrix to unreduced row echelon form (the leftmost element in each row may not equal 1).
+	 * Transform a matrix to unreduced row echelon form (the leftmost element in each row may not equal 1). The
+	 * transformation is done in place, meaning that the original matrix is replaced with its row echelon form.
 	 *
 	 * Parameters:
 	 * 	M, the number of rows in the matrix;
 	 * 	N, the number of columns or elements in each row of the matrix;
 	 * 	A, a pointer to the start of the matrix to transform to row echelon form.
-	 * 	swap_stack, a stack to which, for each row swap, the indeces of the swapped rows get pushed consecutively.
 	 *
 	 * Returns:
 	 * 	void
 	 */
 	template <size_t M, size_t N, typename T>
-	void transform_in_place_to_unreduced_row_echelon_form(T A[M][N], std::stack<int> &swap_stack)
+	void transform_in_place_to_unreduced_row_echelon_form(T A[M][N])
 	{
 		int i = 0;
 		int j = 0;
@@ -90,8 +89,6 @@ namespace lapp::matops
 			}
 
 			swap_rows<M, N, T>(A, i, i_max);
-			swap_stack.push(i);
-			swap_stack.push(i_max);
 
 			for (int m = i + 1; m < M; m++)
 			{
@@ -106,6 +103,35 @@ namespace lapp::matops
 
 			i++;
 			j++;
+		}
+	}
+
+	/*
+	 * Solves a system of linear equations with Gaussian elimination. The system is solved in place, meaning that the
+	 * original matrix is replaced with its row echelon form.
+	 *
+	 * Parameters:
+	 * 	M, the number of equations;
+	 * 	A, a pointer to the start of the M by M + 1 matrix containing the augmented matrix associated with the system;
+	 * 	results, a pointer to the start of the vector to which the results are saved;
+	 *
+	 * Returns:
+	 * 	void
+	 */
+	template <size_t M, typename T>
+	void solve_linear_system_in_place_with_gaussian_elimination(T A[M][M + 1], T results[M])
+	{
+		transform_in_place_to_unreduced_row_echelon_form<M, M + 1, T>(A);
+
+		for (int i = M - 1; i >= 0; i--)
+		{
+			T sum = 0;
+			for (int j = i + 1; j < M; j++)
+			{
+				sum += A[i][j] * results[j];
+			}
+
+			results[i] = (A[i][M] - sum) / A[i][i];
 		}
 	}
 }
