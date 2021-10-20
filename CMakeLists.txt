@@ -2,9 +2,6 @@ cmake_minimum_required(VERSION 3.16.3)
 
 project(lapp VERSION 0.1 LANGUAGES CXX)
 
-add_library(lapp src/matops.h src/vec.h src/vecops.h)
-set_target_properties(lapp PROPERTIES LINKER_LANGUAGE CXX)
-
 enable_testing()
 
 add_executable(MatopsArgmaxAbsInCol_GivenAllZeroColumn_ReturnsNegativeOne tests/MatopsArgmaxAbsInCol_GivenAllZeroColumn_ReturnsNegativeOne.cpp)
