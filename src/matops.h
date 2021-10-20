@@ -6,7 +6,8 @@
 namespace lapp::matops
 {
 	/*
-	 * Finds the row of a matrix containing the element with the greatest nonzero absolute value in the given column.
+	 * Finds the row of a matrix containing the element with the greatest
+	 * nonzero absolute value in the given column.
 	 *
 	 * Parameters:
 	 * 	M, the number of rows in the matrix;
@@ -16,7 +17,8 @@ namespace lapp::matops
 	 * 	srow, the row at which to begin the search.
 	 *
 	 * Returns:
-	 * 	The index of the row with the greatest nonzero absolute value in the given column, -1 if none are found.
+	 * 	The index of the row with the greatest nonzero absolute value in the
+	 * 	given column, -1 if none are found.
 	 */
 	template <size_t M, size_t N, typename T>
 	int argmax_abs_in_col(const T A[M][N], const int col, const int srow)
@@ -43,7 +45,8 @@ namespace lapp::matops
 	 * Parameters:
 	 * 	M, the number of rows in the matrix;
 	 * 	N, the number of columns or elements in each row of the matrix;
-	 * 	A, a pointer to the start of the matrix which will get two of its rows swapped;
+	 * 	A, a pointer to the start of the matrix which will get two of its rows
+	 * 	swapped;
 	 * 	a, the index of the first row to swap;
 	 * 	b, the index of the second row to swap.
 	 *
@@ -62,13 +65,15 @@ namespace lapp::matops
 	}
 
 	/*
-	 * Transform a matrix to unreduced row echelon form (the leftmost element in each row may not equal 1). The
-	 * transformation is done in place, meaning that the original matrix is replaced with its row echelon form.
+	 * Transform a matrix to unreduced row echelon form (the leftmost element
+	 * in each row may not equal 1). The transformation is done in place,
+	 * meaning that the original matrix is replaced with its row echelon form.
 	 *
 	 * Parameters:
 	 * 	M, the number of rows in the matrix;
 	 * 	N, the number of columns or elements in each row of the matrix;
-	 * 	A, a pointer to the start of the matrix to transform to row echelon form.
+	 * 	A, a pointer to the start of the matrix to transform to row
+	 * 	echelon form.
 	 *
 	 * Returns:
 	 * 	void
@@ -107,19 +112,23 @@ namespace lapp::matops
 	}
 
 	/*
-	 * Solves a system of linear equations with Gaussian elimination. The system is solved in place, meaning that the
-	 * original matrix is replaced with its row echelon form.
+	 * Solves a system of linear equations with Gaussian elimination. The system
+	 * is solved in place, meaning that the original matrix is replaced with its
+	 * row echelon form.
 	 *
 	 * Parameters:
 	 * 	M, the number of equations;
-	 * 	A, a pointer to the start of the M by M + 1 matrix containing the augmented matrix associated with the system;
-	 * 	results, a pointer to the start of the vector to which the results are saved;
+	 * 	A, a pointer to the start of the M by M + 1 matrix containing the
+	 * 	augmented matrix associated with the system;
+	 * 	results, a pointer to the start of the vector to which the
+	 * 	results are saved;
 	 *
 	 * Returns:
 	 * 	void
 	 */
 	template <size_t M, typename T>
-	void solve_linear_system_in_place_with_gaussian_elimination(T A[M][M + 1], T results[M])
+	void solve_linear_system_in_place_with_gaussian_elimination(
+		T A[M][M + 1], T results[M])
 	{
 		transform_in_place_to_unreduced_row_echelon_form<M, M + 1, T>(A);
 
