@@ -12,12 +12,22 @@ namespace lapp
 	{
 		T elements[N];
 
-		bool operator==(const vec<N, T> &other) const
+		const T dot(const vec<N, T> &other) const
+		{
+			return lapp::vecops::dot<N, T>(elements, other.elements);
+		}
+
+		const T sqr_len() const
+		{
+			return lapp::vecops::dot<N, T>(elements, elements);
+		}
+
+		const bool operator==(const vec<N, T> &other) const
 		{
 			return memcmp(elements, other.elements, sizeof(T) * N) == 0;
 		}
 
-		bool operator!=(const vec<N, T> &other) const
+		const bool operator!=(const vec<N, T> &other) const
 		{
 			return memcmp(elements, other.elements, sizeof(T) * N) != 0;
 		}
