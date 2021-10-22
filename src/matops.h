@@ -10,11 +10,11 @@ namespace lapp::matops
 	 * nonzero absolute value in the given column.
 	 *
 	 * Parameters:
-	 * 	M, the number of rows in the matrix;
-	 * 	N, the number of columns or elements in each row of the matrix;
-	 * 	A, a pointer to the start of the matrix to search;
-	 * 	col, the column to search;
-	 * 	srow, the row at which to begin the search.
+	 * 	- M, the number of rows in the matrix;
+	 * 	- N, the number of columns or elements in each row of the matrix;
+	 * 	- A, a pointer to the start of the matrix to search;
+	 * 	- col, the column to search;
+	 * 	- srow, the row at which to begin the search.
 	 *
 	 * Returns:
 	 * 	The index of the row with the greatest nonzero absolute value in the
@@ -43,12 +43,12 @@ namespace lapp::matops
 	 * Swaps two rows of a matrix.
 	 *
 	 * Parameters:
-	 * 	M, the number of rows in the matrix;
-	 * 	N, the number of columns or elements in each row of the matrix;
-	 * 	A, a pointer to the start of the matrix which will get two of its rows
+	 * 	- M, the number of rows in the matrix;
+	 * 	- N, the number of columns or elements in each row of the matrix;
+	 * 	- A, a pointer to the start of the matrix which will get two of its rows
 	 * 	swapped;
-	 * 	a, the index of the first row to swap;
-	 * 	b, the index of the second row to swap.
+	 * 	- a, the index of the first row to swap;
+	 * 	- b, the index of the second row to swap.
 	 *
 	 * Returns:
 	 * 	void
@@ -70,10 +70,10 @@ namespace lapp::matops
 	 * meaning that the original matrix is replaced with its row echelon form.
 	 *
 	 * Parameters:
-	 * 	M, the number of rows in the matrix;
-	 * 	N, the number of columns or elements in each row of the matrix;
-	 * 	A, a pointer to the start of the matrix to transform to row
-	 * 	echelon form.
+	 * 	- M, the number of rows in the matrix;
+	 * 	- N, the number of columns or elements in each row of the matrix;
+	 * 	- A, a pointer to the start of the matrix to transform to row echelon
+	 * 	form.
 	 *
 	 * Returns:
 	 * 	void
@@ -117,11 +117,11 @@ namespace lapp::matops
 	 * row echelon form.
 	 *
 	 * Parameters:
-	 * 	M, the number of equations;
-	 * 	A, a pointer to the start of the M by M + 1 matrix containing the
+	 * 	- M, the number of equations;
+	 * 	- A, a pointer to the start of the M by M + 1 matrix containing the
 	 * 	augmented matrix associated with the system;
-	 * 	results, a pointer to the start of the vector to which the
-	 * 	results are saved;
+	 * 	- results, a pointer to the start of the vector to which the results are
+	 * 	saved;
 	 *
 	 * Returns:
 	 * 	void
