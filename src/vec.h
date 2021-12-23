@@ -32,15 +32,59 @@ namespace lapp
 			return memcmp(elements, other.elements, sizeof(T) * N) != 0;
 		}
 
+		const vec<N, T> operator+(const vec<N, T> &other) const
+		{
+			vec<N, T> result;
+			vecops::add<N, T>(elements, other.elements, result.elements);
+			return result;
+		}
+
+		const vec<N, T> operator-(const vec<N, T> &other) const
+		{
+			vec<N, T> result;
+			vecops::subtract<N, T>(elements, other.elements, result.elements);
+			return result;
+		}
+
+		const vec<N, T> operator*(const T factor) const
+		{
+			vec<N, T> result;
+			vecops::scale<N, T>(factor, elements, result.elements);
+			return result;
+		}
+
+		const vec<N, T> operator/(const T factor) const
+		{
+			vec<N, T> result;
+			vecops::scale_by_reciprocal<N, T>(factor, elements, result.elements);
+			return result;
+		}
+
 		void operator+=(const vec<N, T> &other)
 		{
-			lapp::vecops::add<N, T>(elements, other.elements, elements);
+			vecops::add<N, T>(elements, other.elements, elements);
 		}
 
 		void operator-=(const vec<N, T> &other)
 		{
-			lapp::vecops::subtract<N, T>(elements, other.elements, elements);
+			vecops::subtract<N, T>(elements, other.elements, elements);
+		}
+
+		void operator*=(const T factor)
+		{
+			vecops::scale<N, T>(factor, elements, elements);
+		}
+
+		void operator/=(const T factor)
+		{
+			vecops::scale_by_reciprocal<N, T>(factor, elements, elements);
 		}
 	};
+
+	template<size_t N, typename T>
+	const vec<N, T> operator*(const T factor, const vec<N, T> &v)
+	{
+		return v * factor;
+	}
 }
 

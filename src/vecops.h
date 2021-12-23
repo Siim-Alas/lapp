@@ -70,6 +70,30 @@ namespace lapp::vecops
 			result[i] = a * b[i];
 		}
 	}
+
+	/*
+	 * Scales the first N components of b by a factor of 1 / a.
+	 *
+	 * Parameters:
+	 * 	- N, the number of elements to scale;
+	 * 	- T, the type of elements in b;
+	 * 	- a, the factor by the reciprocal of which the components of b are to be
+	 * 	scaled;
+	 * 	- b, a pointer to the start of the array to be scaled;
+	 * 	- result, a pointer to the start of the array where the result is saved.
+	 *
+	 * Returns:
+	 * 	void
+	 */
+	template <size_t N, typename T>
+	void scale_by_reciprocal(const T a, const T b[N], T result[N])
+	{
+		for (int i = 0; i < N; i++)
+		{
+			result[i] = b[i] / a;
+		}
+	}
+
 	/*
 	 * Subtracts b from a component wise for N components.
 	 *
