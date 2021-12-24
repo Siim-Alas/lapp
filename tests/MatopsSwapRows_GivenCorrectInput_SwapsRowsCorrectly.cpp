@@ -25,7 +25,7 @@ int main()
 		{  41,  42,  43,  44,  45,  46,  47,  48,  49,  50 }
 	};
 
-	lapp::matops::swap_rows<M, N, double>(A, a, b);
+	lapp::matops::swap_rows<double>(&(A[0][0]), a, b, M, N);
 
 	return memcmp(A, correct_result, sizeof(double) * M * N);
 }

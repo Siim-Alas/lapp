@@ -1,34 +1,50 @@
 #pragma once
 
 #include <cmath>	// std::abs
-#include <cstddef>	// size_t
 
 namespace lapp::matops
 {
+	/*
+	 * Finds the index where the element on the i-th row and j-th column would
+	 * reside in a row-major representation.
+	 *
+	 * Parameters:
+	 * 	- i, the 0-based index of the row;
+	 * 	- j, the 0-based index of the column;
+	 * 	- cols, the number of columns or elements in each row of the matrix.
+	 */
+	size_t rmi(size_t i, size_t j, size_t cols)
+	{
+		return i * cols + j;
+	}
+
 	/*
 	 * Finds the row of a matrix containing the element with the greatest
 	 * nonzero absolute value in the given column.
 	 *
 	 * Parameters:
-	 * 	- M, the number of rows in the matrix;
-	 * 	- N, the number of columns or elements in each row of the matrix;
-	 * 	- A, a pointer to the start of the matrix to search;
+	 * 	- T, the type of elements in the matrix;
+	 * 	- A, a pointer to the start of the matrix to search (the matrix is
+	 * 	assumed to be represented in row-major order);
 	 * 	- col, the column to search;
-	 * 	- srow, the row at which to begin the search.
+	 * 	- srow, the row at which to begin the search;
+	 * 	- rows, the number of rows in the matrix;
+	 * 	- cols, the number of columns or elements in each row of the matrix.
 	 *
 	 * Returns:
 	 * 	The index of the row with the greatest nonzero absolute value in the
 	 * 	given column, -1 if none are found.
 	 */
-	template <size_t M, size_t N, typename T>
-	int argmax_abs_in_col(const T A[M][N], const int col, const int srow)
+	template <typename T>
+	int argmax_abs_in_col(
+		const T *A, int col, int srow, size_t rows, size_t cols)
 	{
 		int argmax = -1;
 		T maxabs = 0;
 
-		for (int i = srow; i < M; i++)
+		for (int i = srow; i < rows; i++)
 		{
-			T candidate = std::abs(A[i][col]);
+			T candidate = std::abs(A[rmi(i, col, cols)]);
 			if (candidate > maxabs)
 			{
 				maxabs = candidate;
@@ -43,24 +59,25 @@ namespace lapp::matops
 	 * Swaps two rows of a matrix.
 	 *
 	 * Parameters:
-	 * 	- M, the number of rows in the matrix;
-	 * 	- N, the number of columns or elements in each row of the matrix;
+	 * 	- T, the type of elements in the matrix;
 	 * 	- A, a pointer to the start of the matrix which will get two of its rows
-	 * 	swapped;
+	 * 	swapped (the matrix is assumed to be represented in row-major order);
 	 * 	- a, the index of the first row to swap;
-	 * 	- b, the index of the second row to swap.
+	 * 	- b, the index of the second row to swap;
+	 * 	- rows, the number of rows in the matrix;
+	 * 	- cols, the number of columns or elements in each row of the matrix.
 	 *
 	 * Returns:
 	 * 	void
 	 */
-	template <size_t M, size_t N, typename T>
-	void swap_rows(T A[M][N], const int a, const int b)
+	template <typename T>
+	void swap_rows(T *A, int a, int b, size_t rows, size_t cols)
 	{
-		for (int j = 0; j < N; j++)
+		for (int j = 0; j < cols; j++)
 		{
-			T temp = A[a][j];
-			A[a][j] = A[b][j];
-			A[b][j] = temp;
+			T temp = A[rmi(a, j, cols)];
+			A[rmi(a, j, cols)] = A[rmi(b, j, cols)];
+			A[rmi(b, j, cols)] = temp;
 		}
 	}
 
@@ -70,39 +87,41 @@ namespace lapp::matops
 	 * meaning that the original matrix is replaced with its row echelon form.
 	 *
 	 * Parameters:
-	 * 	- M, the number of rows in the matrix;
-	 * 	- N, the number of columns or elements in each row of the matrix;
+	 * 	- T, the type of elements in the matrix;
 	 * 	- A, a pointer to the start of the matrix to transform to row echelon
-	 * 	form.
+	 * 	form (the matrix is assumed to be represented in row-major order);
+	 * 	- rows, the number of rows in the matrix;
+	 * 	- cols, the number of columns or elements in each row of the matrix.
 	 *
 	 * Returns:
 	 * 	void
 	 */
-	template <size_t M, size_t N, typename T>
-	void transform_in_place_to_unreduced_row_echelon_form(T A[M][N])
+	template <typename T>
+	void transform_in_place_to_unreduced_row_echelon_form(
+		T *A, size_t rows, size_t cols)
 	{
 		int i = 0;
 		int j = 0;
 
-		while ((i < M) && (j < N))
+		while ((i < rows) && (j < cols))
 		{
-			int i_max = argmax_abs_in_col<M, N, T>(A, j, i);
+			int i_max = argmax_abs_in_col<T>(A, j, i, rows, cols);
 			if (i_max == -1)
 			{
 				j++;
 				continue;
 			}
 
-			swap_rows<M, N, T>(A, i, i_max);
+			swap_rows<T>(A, i, i_max, rows, cols);
 
-			for (int m = i + 1; m < M; m++)
+			for (int m = i + 1; m < rows; m++)
 			{
-				T factor = A[m][j] / A[i][j];
-				A[m][j] = 0;
+				T factor = A[rmi(m, j, cols)] / A[rmi(i, j, cols)];
+				A[rmi(m, j, cols)] = 0;
 
-				for (int n = j + 1; n < N; n++)
+				for (int n = j + 1; n < cols; n++)
 				{
-					A[m][n] -= factor * A[i][n];
+					A[rmi(m, n, cols)] -= factor * A[rmi(i, n, cols)];
 				}
 			}
 
@@ -117,30 +136,34 @@ namespace lapp::matops
 	 * row echelon form.
 	 *
 	 * Parameters:
-	 * 	- M, the number of equations;
-	 * 	- A, a pointer to the start of the M by M + 1 matrix containing the
-	 * 	augmented matrix associated with the system;
+	 * 	- A, a pointer to the start of the num_of_equations by num_of_equations
+	 * 	+ 1 matrix containing the augmented matrix associated with the system
+	 * 	(the matrix is assumed to be represented in row-major order);
 	 * 	- results, a pointer to the start of the vector to which the results are
 	 * 	saved;
+	 * 	- num_of_equations, the number of equations.
 	 *
 	 * Returns:
 	 * 	void
 	 */
-	template <size_t M, typename T>
+	template <typename T>
 	void solve_linear_system_in_place_with_gaussian_elimination(
-		T A[M][M + 1], T results[M])
+		T *A, T *results, size_t num_of_equations)
 	{
-		transform_in_place_to_unreduced_row_echelon_form<M, M + 1, T>(A);
+		transform_in_place_to_unreduced_row_echelon_form<T>(
+			A, num_of_equations, num_of_equations + 1);
 
-		for (int i = M - 1; i >= 0; i--)
+		for (int i = num_of_equations - 1; i >= 0; i--)
 		{
 			T sum = 0;
-			for (int j = i + 1; j < M; j++)
+			for (int j = i + 1; j < num_of_equations; j++)
 			{
-				sum += A[i][j] * results[j];
+				sum += A[rmi(i, j, num_of_equations + 1)] * results[j];
 			}
 
-			results[i] = (A[i][M] - sum) / A[i][i];
+			results[i] =
+				(A[rmi(i, num_of_equations, num_of_equations + 1)] - sum) /
+				A[rmi(i, i, num_of_equations + 1)];
 		}
 	}
 }

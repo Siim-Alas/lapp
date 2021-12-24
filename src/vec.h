@@ -14,12 +14,12 @@ namespace lapp
 
 		const T dot(const vec<N, T> &other) const
 		{
-			return lapp::vecops::dot<N, T>(elements, other.elements);
+			return lapp::vecops::dot<T>(elements, other.elements, N);
 		}
 
 		const T sqr_len() const
 		{
-			return lapp::vecops::dot<N, T>(elements, elements);
+			return lapp::vecops::dot<T>(elements, elements, N);
 		}
 
 		const bool operator==(const vec<N, T> &other) const
@@ -35,49 +35,49 @@ namespace lapp
 		const vec<N, T> operator+(const vec<N, T> &other) const
 		{
 			vec<N, T> result;
-			vecops::add<N, T>(elements, other.elements, result.elements);
+			vecops::add<T>(elements, other.elements, result.elements, N);
 			return result;
 		}
 
 		const vec<N, T> operator-(const vec<N, T> &other) const
 		{
 			vec<N, T> result;
-			vecops::subtract<N, T>(elements, other.elements, result.elements);
+			vecops::subtract<T>(elements, other.elements, result.elements, N);
 			return result;
 		}
 
 		const vec<N, T> operator*(const T factor) const
 		{
 			vec<N, T> result;
-			vecops::scale<N, T>(factor, elements, result.elements);
+			vecops::scale<T>(factor, elements, result.elements, N);
 			return result;
 		}
 
 		const vec<N, T> operator/(const T factor) const
 		{
 			vec<N, T> result;
-			vecops::scale_by_reciprocal<N, T>(factor, elements, result.elements);
+			vecops::scale_by_reciprocal<T>(factor, elements, result.elements, N);
 			return result;
 		}
 
 		void operator+=(const vec<N, T> &other)
 		{
-			vecops::add<N, T>(elements, other.elements, elements);
+			vecops::add<T>(elements, other.elements, elements, N);
 		}
 
 		void operator-=(const vec<N, T> &other)
 		{
-			vecops::subtract<N, T>(elements, other.elements, elements);
+			vecops::subtract<T>(elements, other.elements, elements, N);
 		}
 
 		void operator*=(const T factor)
 		{
-			vecops::scale<N, T>(factor, elements, elements);
+			vecops::scale<T>(factor, elements, elements, N);
 		}
 
 		void operator/=(const T factor)
 		{
-			vecops::scale_by_reciprocal<N, T>(factor, elements, elements);
+			vecops::scale_by_reciprocal<T>(factor, elements, elements, N);
 		}
 	};
 

@@ -19,7 +19,7 @@ int main()
 		{ 0,   0,  -1, 1 }
 	};
 
-	lapp::matops::transform_in_place_to_unreduced_row_echelon_form<M, N, double>(A);
+	lapp::matops::transform_in_place_to_unreduced_row_echelon_form<double>(&(A[0][0]), M, N);
 
 	return memcmp(A, correct_result, sizeof(double) * M * N);
 }

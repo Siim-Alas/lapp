@@ -15,7 +15,7 @@ int main()
 	double correct_result[M] = { 2, 3, -1 };
 	double tolerance = 1.0e-6;
 
-	lapp::matops::solve_linear_system_in_place_with_gaussian_elimination<M, double>(A, result);
+	lapp::matops::solve_linear_system_in_place_with_gaussian_elimination<double>(&(A[0][0]), result, M);
 
 	if ((std::abs(result[0] - correct_result[0]) < tolerance) &&
 		(std::abs(result[1] - correct_result[1]) < tolerance) &&

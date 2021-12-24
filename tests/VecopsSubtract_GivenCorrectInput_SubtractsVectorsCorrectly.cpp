@@ -10,7 +10,7 @@ int main()
 	double result[N];
 	double correct_result[N] = { 1 - 6, 2 - 7, 3 - 8, 4 - 9, 5 - 10 };
 
-	lapp::vecops::subtract<N, double>(a, b, result);
+	lapp::vecops::subtract<double>(a, b, result, N);
 
 	return memcmp(result, correct_result, N);
 }

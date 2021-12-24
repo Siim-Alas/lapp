@@ -18,7 +18,7 @@ int main()
 	int srow = 1;
 	double correct_result = 4;
 
-	double result = lapp::matops::argmax_abs_in_col<M, N, double>(A, col, srow);
+	double result = lapp::matops::argmax_abs_in_col<double>(&(A[0][0]), col, srow, M, N);
 
 	return result - correct_result;
 }

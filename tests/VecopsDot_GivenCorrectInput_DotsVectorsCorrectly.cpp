@@ -9,7 +9,7 @@ int main()
 	double b[N] = { 6, 7, 8, 9, 10 };
 	double correct_result = 1*6 + 2*7 + 3*8 + 4*9 + 5*10;
 
-	double result = lapp::vecops::dot<N, double>(a, b);
+	double result = lapp::vecops::dot<double>(a, b, N);
 
 	return result - correct_result;
 }

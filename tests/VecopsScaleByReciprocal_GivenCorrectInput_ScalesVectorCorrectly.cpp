@@ -10,7 +10,7 @@ int main()
 	double result[N];
 	double correct_result[N] = { 6/1.5, 7/1.5, 8/1.5, 9/1.5, 10/1.5 };
 
-	lapp::vecops::scale_by_reciprocal<N, double>(a, b, result);
+	lapp::vecops::scale_by_reciprocal<double>(a, b, result, N);
 
 	return memcmp(result, correct_result, N);
 }
