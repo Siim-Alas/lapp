@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstddef>	// size_t
 #include <cstring>	// memcmp
 
 #include "vecops.h"
